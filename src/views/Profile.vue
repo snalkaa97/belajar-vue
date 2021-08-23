@@ -18,7 +18,11 @@
 				<h5>Pokemon</h5>
 			</div>
 			<div class="row">
-				<div class="col-lg-2" v-for="item in this.items" v-bind:key="item.id">
+				<div
+					class="col-lg-2 col-md-3 col-sm-3"
+					v-for="item in this.items"
+					v-bind:key="item.id"
+				>
 					<!-- <p>{{ item.name }}</p> -->
 					<div class="card-body">
 						<h6 class="card-title">{{ item.name }}</h6>
@@ -105,9 +109,6 @@ export default {
 					}));
 				});
 		},
-		checkTask() {
-			// const self = this;
-		},
 	},
 };
 </script>
@@ -116,8 +117,5 @@ export default {
 	height: 80px;
 	widows: 80px;
 	border-radius: 200%;
-}
-.item-complete {
-	color: #1abc9c;
 }
 </style>

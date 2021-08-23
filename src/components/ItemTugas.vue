@@ -5,6 +5,7 @@
 			type="checkbox"
 			value=""
 			:id="`cek${task.id}`"
+			@click="checkTask(task)"
 		/>
 		<label
 			class="form-check-label item"
@@ -19,6 +20,19 @@
 export default {
 	name: "ItemTugas",
 	props: ["task"],
+	methods: {
+		checkTask(task) {
+			if (task.isDone) {
+				task.isDone = false;
+			} else {
+				task.isDone = true;
+			}
+		},
+	},
 };
 </script>
-<style scoped></style>
+<style scoped>
+.item-complete {
+	color: #1abc9c;
+}
+</style>
