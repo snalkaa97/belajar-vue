@@ -21,12 +21,8 @@ export default {
 	name: "ItemTugas",
 	props: ["task"],
 	methods: {
-		checkTask(task) {
-			if (task.isDone) {
-				task.isDone = false;
-			} else {
-				task.isDone = true;
-			}
+		checkTask() {
+			this.$store.commit("change", this.task);
 		},
 	},
 };

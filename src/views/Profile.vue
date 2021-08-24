@@ -34,7 +34,7 @@
 			<div class="text-center">
 				<h5 class="p-3 header">Tugas</h5>
 			</div>
-			<div v-for="task in this.tasks" v-bind:key="task.id">
+			<div v-for="task in this.$store.state.tasks" v-bind:key="task.id">
 				<ItemTugas v-bind:task="task" />
 			</div>
 			<Gallery />
@@ -58,28 +58,6 @@ export default {
 			bio:
 				"Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus non architecto eveniet officiis autem.",
 			items: {},
-			tasks: [
-				{
-					id: 1,
-					nama: "Belajar Javascript",
-					isDone: false,
-				},
-				{
-					id: 2,
-					nama: "Belajar PHP",
-					isDone: false,
-				},
-				{
-					id: 3,
-					nama: "Belajar HTML",
-					isDone: false,
-				},
-				{
-					id: 4,
-					nama: "Belajar CSS",
-					isDone: false,
-				},
-			],
 		};
 	},
 	components: {
