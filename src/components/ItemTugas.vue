@@ -6,6 +6,7 @@
 			value=""
 			:id="`cek${task.id}`"
 			@click="checkTask(task)"
+			v-model="task.isDone"
 		/>
 		<label
 			class="form-check-label item"
@@ -14,6 +15,14 @@
 		>
 			{{ task.nama }}
 		</label>
+		<button
+			type="button"
+			aria-label="Close"
+			style="background-color:red; color:white; border:1px solid; border-radius:20%; margin-left:20px"
+			@click="deleteTask(task)"
+		>
+			hapus
+		</button>
 	</div>
 </template>
 <script>
@@ -23,6 +32,9 @@ export default {
 	methods: {
 		checkTask() {
 			this.$store.commit("change", this.task);
+		},
+		deleteTask(index) {
+			this.$store.commit("deleteTask", index);
 		},
 	},
 };

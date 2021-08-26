@@ -20,13 +20,13 @@
 			<div class="row">
 				<div
 					class="col-lg-2 col-md-3 col-sm-3"
-					v-for="item in this.items"
+					v-for="item in items"
 					v-bind:key="item.id"
 				>
 					<!-- <p>{{ item.name }}</p> -->
 					<div class="card-body">
 						<h6 class="card-title">{{ item.name }}</h6>
-						<img class="card-image" :src="`${item.image}`" />
+						<img class="card-image" v-bind:src="item.image" />
 					</div>
 				</div>
 			</div>
@@ -34,10 +34,19 @@
 			<div class="text-center">
 				<h5 class="p-3 header">Tugas</h5>
 			</div>
-			<div v-for="task in this.$store.state.tasks" v-bind:key="task.id">
+			<input
+				type="text"
+				class="form-control task"
+				id="task"
+				placeholder="Input todolist & enter"
+				v-on:keyup.enter="addTask(this)"
+			/>
+			<button @click="status = 'all'">All</button>
+			<button @click="status = 'pending'">Pending</button>
+			<button @click="status = 'done'">Done</button>
+			<div v-for="task in tasks" v-bind:key="task.id">
 				<ItemTugas v-bind:task="task" />
 			</div>
-			<Gallery />
 		</div>
 		<!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
 	</div>
@@ -45,7 +54,6 @@
 
 <script>
 // @ is an alias to /src
-import Gallery from "@/components/Gallery.vue";
 import ItemTugas from "@/components/ItemTugas.vue";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -58,10 +66,15 @@ export default {
 			bio:
 				"Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus non architecto eveniet officiis autem.",
 			items: {},
+			task: {
+				id: "",
+				nama: "",
+				isDone: false,
+			},
+			status: "",
 		};
 	},
 	components: {
-		Gallery,
 		ItemTugas,
 	},
 	mounted() {
@@ -86,6 +99,29 @@ export default {
 							1}.png`,
 					}));
 				});
+		},
+		addTask() {
+			this.task = {
+				id: this.$store.state.tasks.length + 1,
+				nama: document.getElementById("task").value,
+				isDone: false,
+			};
+			document.getElementById("task").value = "";
+			this.$store.commit("addTask", this.task);
+		},
+	},
+	computed: {
+		tasks() {
+			// console.log(this.status);
+			if (this.status == "all") {
+				return this.$store.state.tasks;
+			} else if (this.status == "done") {
+				return this.$store.getters.doneTasks;
+			} else if (this.status == "pending") {
+				return this.$store.getters.pendingTasks;
+			} else {
+				return this.$store.state.tasks;
+			}
 		},
 	},
 };
