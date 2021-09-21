@@ -56,6 +56,7 @@
 // @ is an alias to /src
 import ItemTugas from "@/components/ItemTugas.vue";
 import "bootstrap/dist/css/bootstrap.css";
+import axios from "axios";
 
 export default {
 	name: "Profile",
@@ -78,28 +79,42 @@ export default {
 		ItemTugas,
 	},
 	mounted() {
-		this.pokemonItem();
+		// this.pokemonItem();
+		axios
+			.get("https://pokeapi.co/api/v2/pokemon/")
+			.then((response) => {
+				console.log(response.data);
+				this.items = response.data.results.map((result, index) => ({
+					...result,
+					id: index + 1,
+					image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index +
+						1}.png`,
+				}));
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	},
 	methods: {
-		async pokemonItem() {
-			// const self = this;
-			const getPokemonItem = `${"https://pokeapi.co/api/v2/pokemon/"}`;
-			await fetch(getPokemonItem, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			})
-				.then((response) => response.json())
-				.then((json) => {
-					this.items = json.results.map((result, index) => ({
-						...result,
-						id: index + 1,
-						image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index +
-							1}.png`,
-					}));
-				});
-		},
+		// async pokemonItem() {
+		// 	// const self = this;
+		// 	const getPokemonItem = `${"https://pokeapi.co/api/v2/pokemon/"}`;
+		// 	await fetch(getPokemonItem, {
+		// 		method: "GET",
+		// 		headers: {
+		// 			"Content-Type": "application/json",
+		// 		},
+		// 	})
+		// 		.then((response) => response.json())
+		// 		.then((json) => {
+		// 			this.items = json.results.map((result, index) => ({
+		// 				...result,
+		// 				id: index + 1,
+		// 				image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index +
+		// 					1}.png`,
+		// 			}));
+		// 		});
+		// },
 		addTask() {
 			this.task = {
 				id: this.$store.state.tasks.length + 1,
